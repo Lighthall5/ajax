@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>gifs</title>
+</head>
+
+<body>
+  <button data-gif="einstein">einstein</button>
+  <button data-gif="celebreties">celebreties</button>
+  <button data-gif="games">games</button>
+  <div id="gifs-spawn">
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    var searchResults = [];
+    var searchBox = $(searchDiv).append("#search-div");
+    $("button").on("click", function () {
+
+      var gif = $(this).attr(prompts);
+ 
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        gif + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+      $("#searchButton").append(searchResults);
+      
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function (response) {
+          console.log(queryURL);
+
+          console.log(response);
+
+
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+
+            var gifsDiv = $("<div>");
+            var p = $("<p>").text("Rating: " + results[i].rating);
+            var gifs = $("<img>");
+
+            gifs.attr("src", results[i].images.fixed_height.url);
+
+            gifsDiv.append(p);
+            gifsDiv.append(gifs);
+            $("#gifs-spawn").prepend(gifsDiv);
+          }
+        });
+    });
+  </script>
+</body>
+
+</html>
